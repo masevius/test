@@ -11,7 +11,7 @@ echo 'Меня зовут ' . $name . '<br> Мне ' . $age . ' лет<br><br> '
  echo 'Переменная $name ДО удаления - '.$name.'<br>';
     unset($name);
     $name=' ';
- echo 'Переменная $name ПОСЛЕ удаления - '.$name.'<br><br>';
+ echo 'Переменная $name ПОСЛЕ удаления  - '.$name.'<br><br>';
  
  echo 'Переменная $age ДО удаления - '.$age.'<br>';
     unset($age);
