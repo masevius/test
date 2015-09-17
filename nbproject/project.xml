@@ -3,7 +3,11 @@
     <type>org.netbeans.modules.php.project</type>
     <configuration>
         <data xmlns="http://www.netbeans.org/ns/php-project/1">
+<<<<<<< HEAD
             <name>xaver.loc</name>
+=======
+            <name>test</name>
+>>>>>>> 15daf29cca975a0938f1baebd4db23e29d13738c
         </data>
     </configuration>
 </project>
