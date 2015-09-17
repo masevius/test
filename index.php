@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <?php
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
@@ -39,12 +38,3 @@ echo 'Меня зовут ' . $name . '<br> Мне ' . $age . ' лет<br><br> '
   $books=array($book1=array('title1'=>'Дизайн Вашей квартиры','author1'=>'Сафина','pages1'=>'177'),$book2=array('title2'=>'php для чайников','author2'=>'Джанет Валейд','pages2'=>'317'));
  
   echo 'Написанные соответственно авторами '. $book1['author1'].' и '. $book2['author2'].'  я осилил в сумме '.  ($book1['pages1']+$book2['pages2']).'  страниц, не ожидал от себя подобного';
- 
- 
-=======
-<?
-
-echo 'my name is Viktor. 2015';
-
->>>>>>> 15daf29cca975a0938f1baebd4db23e29d13738c
-?>
