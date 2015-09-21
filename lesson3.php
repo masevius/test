@@ -34,9 +34,12 @@ $show_month = array(date('m', $date[0]), //массив $date с перечне�
 echo '<br><br>Наименьший день это - ' . min($show_day) . "<br>";
 echo '<br>Наибольший месяц это - ' . max($show_month) . "<br>";
 
-$sort = sort($date);
-print_r($sort);
+echo '<br><br>Это сортировка по возрастанию <br>';
+sort($date);
+var_dump($date);
 
+$selected = array_slice($date, -1, 1);
+var_dump($selected);
 
-
+echo date('d.m.Y h:i:s',$selected);
 
