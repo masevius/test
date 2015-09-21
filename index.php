@@ -5,6 +5,7 @@ ini_set('display_errors', 1);
 echo '<h2>Задание 1 - выполнено!</h2>';
 echo '<h2>Задание if dff</h2>';
     $name = 'Виктор';
+    $name2 = 'Алексей';
     $age = 25;
 echo 'Меня зовут ' . $name . '<br> Мне ' . $age . ' лет<br><br> ';
     
