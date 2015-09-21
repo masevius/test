@@ -3,7 +3,7 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 //Задание 1
 echo '<h2>Задание 1 - выполнено!</h2>';
-echo '<h2>Задание ййй </h2>';
+echo '<h2>Задание if </h2>';
     $name = 'Виктор';
     $age = 25;
 echo 'Меня зовут ' . $name . '<br> Мне ' . $age . ' лет<br><br> ';
