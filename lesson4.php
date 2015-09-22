@@ -1,53 +1,58 @@
-<?php
-
-echo '<h2>Задание 3</h2>';
-$date = array(mt_rand(1, time()),
-    mt_rand(1, time()),
-    mt_rand(1, time()),
-    mt_rand(1, time()),
-    mt_rand(1, time())
-);
-
-echo "Это массив юниксовыми метками <br> ";
-echo var_dump($date);
-
-$show_date = array(date('d.m.Y', $date[0]), //массив с переводом юниксовых меток в даты. Это для наглядности.
-    date('d.m.Y', $date[1]),
-    date('d.m.Y', $date[2]),
-    date('d.m.Y', $date[3]),
-    date('d.m.Y', $date[4]));
-
-echo "Это тот же самый массив, но преобразованный, для наглядности, в даты <br> ";
-echo var_dump($show_date);
-
-$show_day = array(date('d', $date[0]), //массив $date с перечнем дней
-    date('d', $date[1]),
-    date('d', $date[2]),
-    date('d', $date[3]),
-    date('d', $date[4]));
-
-$show_month = array(date('m', $date[0]), //массив $date с перечнем месяцев
-    date('m', $date[1]),
-    date('m', $date[2]),
-    date('m', $date[3]),
-    date('m', $date[4]));
-echo '<hr>';
-echo '<br>Наименьший день это - ' . min($show_day) . "<br>";
-echo '<br>Наибольший месяц это - ' . max($show_month) . "<br>";
-echo '<hr>';
-echo '<br>Это сортировка по возрастанию <br>';
-sort($date);
-var_dump($date);
-echo '<hr>';
-echo "Это последний элемент массива <br>";
-$selected = array_pop($date);
-var_dump($selected);
-echo '<hr>';
-echo "Это последний элемент массива преобразованный в формат ДД-ММ-ГГ ч:м:с <br> ";
-echo date('d.m.Y h:i:s', $selected);
-echo '<hr>';
-echo "Теперь вставим часовой пояс для Нью_Йорка <br> ";
-date_default_timezone_set('America/New_York');
-echo "\n".  date_default_timezone_get()." -- ";
-echo date('d.m.Y h:i:s', $selected);
-
+<?php      
+   echo 'Задание 1.1-1.2';
+   $date = array(
+        rand(1, time()),
+        rand(1, time()),
+        rand(1, time()),
+        rand(1, time()),
+        rand(1, time())
+   );
+   var_dump($date);
+   echo '<hr>';
+   
+   echo 'Задание 1.3<br>';
+   /*$data = array(
+        date('d', $date[0]),
+        date('d', $date[1]),
+        date('d', $date[2]),
+        date('d', $date[3]),
+        date('d', $date[4])
+   );
+    $month = array(
+        date('m', $date[0]),
+        date('m', $date[1]),
+        date('m', $date[2]),
+        date('m', $date[3]),
+        date('m', $date[4])
+    );
+   $minData = min($data);
+   $maxMonth = max($month);
+   echo 'Наименьший день: ' . $minData . ', а Наибольший месяц: ' . $maxMonth;*/
+   
+   $day = [];
+   $month = [];
+   $i = 0;
+   foreach ($date as $dat){
+	   $day[$i] = date('d', $dat);
+	   $month[$i] = date('m', $dat);
+	   $i++;
+   }
+   echo 'Наименьший день: ' . $minDay = min($day) . '. Наибольший месяц: ' . $maxDay = max($month);
+   echo '<hr>';
+   
+   echo 'Задание 1.4<br>';
+   array_multisort($date);
+   var_dump($date);
+   echo '<hr>';
+   
+   echo 'Задание 1.5-1.6<br>';
+   $selected = array_pop($date);
+   echo date_default_timezone_get() . '<br>';
+   echo date('d.m.Y H-i-s', $selected);
+   echo '<hr>';
+   
+   echo 'Задание 1.7<br>';
+   date_default_timezone_set('America/New_York');
+   echo date_default_timezone_get();
+   echo '<br>' . date('d.m.Y H-i-s', $selected);
+   echo '<hr>';
