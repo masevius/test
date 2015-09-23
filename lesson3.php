@@ -1,5 +1,4 @@
 <?php
-
 echo '<h2>Задание 3</h2>';
 $date = array(mt_rand(1, time()),
     mt_rand(1, time()),
