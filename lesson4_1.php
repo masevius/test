@@ -23,16 +23,25 @@ diskont = diskont' . mt_rand(0, 2) . ';
 diskont = diskont' . mt_rand(0, 2) . ';
 
 ';
-$bd = parse_ini_string($ini_string, TRUE);
-//print_r($bd);
-//var_dump($bd);
 
-$nazvaniya=  array_keys($bd);//массив с названиями товаров
-foreach ($bd as $value) {
-    print_r($value);
-   
+$bd = parse_ini_string($ini_string, TRUE);
+
+$nazvaniya_tovarov = array_keys($bd); //массив с названиями товаров
+$atrib = array_keys($bd['игрушка мягкая мишка белый']); //массив с атрибутами товаров
+/* print_r($nazvaniya_tovarov);
+  print_r($atrib);
+ */
+//print_r($atrib);
+for ($i = 0;
+$i < count($nazvaniya_tovarov); $i++){
+print_r($nazvaniya_tovarov[$i]);
+echo '///////';
+for ($y = 0; $y < count($atrib); $y++) {
+    echo " ";
+    print_r($bd[$nazvaniya_tovarov[$i]][$atrib[$y]]);
+    echo "   ";
+    }
+    echo '<br>';
 }
-/*
-print_r($bear);
-print_r($jacket);
-print_r($bike);
+
+?>
