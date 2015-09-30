@@ -56,6 +56,7 @@ function display_atribs($nazvaniya_tovarov) {
     global $podsumma_so_skidkoy;
     global $skidka;
     global $prevish;
+    global $alert;
 
     $name = " ";
     for ($i = 0; $i < count($nazvaniya_tovarov); $i++) {
@@ -118,6 +119,7 @@ function display_atribs($nazvaniya_tovarov) {
                 $x1 = $x * 0.7;
                 $podsumma_so_skidkoy .= $x1 . "<br>";
             } if ($value['diskont'] == "0%") {
+                $x1 = $x * 1;
                 $podsumma_so_skidkoy .= $x . " (Нет скидки) <br>";
             }$total_price += $x1;
         } else {
@@ -135,10 +137,20 @@ function display_atribs($nazvaniya_tovarov) {
                 $x1 = $x * 0.7;
                 $podsumma_so_skidkoy .= $x1 . "<br>";
             } if ($value['diskont'] == "0%") {
+                $x1 = $x * 1;
                 $podsumma_so_skidkoy .= $x . " (Нет скидки) <br>";
             }$total_price += $x1;
         }
-        
+    }
+    
+        if ($bd['игрушка детская велосипед']['количество заказано'] >= 3
+                and $bd['игрушка детская велосипед']['осталось на складе'] != 0) {
+            $alert.= "Вам предоставлена скидка 30%<br>";
+        } 
+        foreach ($bd as $key => $value) {
+        if ($value['осталось на складе'] = 0) {
+            $alert.= "Отсутствует на складе<br>";
+        }
     }
 }
 ?>
@@ -148,7 +160,7 @@ function display_atribs($nazvaniya_tovarov) {
     <head>
     </head>
     <body><? display_atribs($nazvaniya_tovarov);
-?>
+        ?>
         <table border="1px"  width="100%" height="10%">
             <tr bgcolor="#F0FFF0">
                 <th>Перечень товаров</th>;
@@ -190,7 +202,9 @@ function display_atribs($nazvaniya_tovarov) {
                     ?>
                 </td>
                 <td align="center">
-                    <? ?>
+                    <? 
+                    echo $alert
+                    ?>
                 </td>
         </table>
         <?
