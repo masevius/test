@@ -55,6 +55,7 @@ function display_atribs($nazvaniya_tovarov) {
     global $kol_zakaz_naim;
     global $podsumma_so_skidkoy;
     global $skidka;
+    global $prevish;
 
     $name = " ";
     for ($i = 0; $i < count($nazvaniya_tovarov); $i++) {
@@ -83,32 +84,58 @@ function display_atribs($nazvaniya_tovarov) {
         }
     }
     $total_price = 0;
-//    $podsumma = ;
-    for ($i = 0; $i < count($nazvaniya_tovarov); $i++) {
-        $skidka .= $bd[$nazvaniya_tovarov[$i]]['цена'] * $bd[$nazvaniya_tovarov[$i]]['diskont'] . "<br>";
-        $podsumma .= $bd[$nazvaniya_tovarov[$i]]['количество заказано'] * $bd[$nazvaniya_tovarov[$i]]['цена'] . "<br>";
-        $podsumma_so_skidkoy .= $bd[$nazvaniya_tovarov[$i]]['количество заказано'] * $bd[$nazvaniya_tovarov[$i]]['цена'] - $bd[$nazvaniya_tovarov[$i]]['цена'] * $bd[$nazvaniya_tovarov[$i]]['diskont'] . "<br>";
-        $total_price += $podsumma_so_skidkoy;
+    static $x;
+    /* foreach ($bd as $key => $value) {
+      if ($value['diskont'] == "10%") {
+      $x = $value['цена'] * 0.9;
+      $podsumma_so_skidkoy .= $x . "<br>";
+      } if ($value['diskont'] == "20%") {
+      $x = $value['цена'] * 0.8;
+      $podsumma_so_skidkoy .= $x . "<br>";
+      }
+      if ($value['diskont'] == "30%") {
+      $x = $value['цена'] * 0.7;
+      $podsumma_so_skidkoy .= $x . "<br>";
+      } if ($value['diskont'] == "0%") {
+      //            $x = $value['цена'] * 1;
+      $podsumma_so_skidkoy .= ($value['цена'] * $value['количество заказано']) . " (Нет скидки) <br>";
+      }
+      } */
+
+    foreach ($bd as $key => $value) {
+
+        if ($value['осталось на складе'] >= $value['количество заказано']) {
+            $x = $value['цена'] * $value['количество заказано'];
+            $podsumma .= $x . "<br>";
+            if ($value['diskont'] == "10%") {
+                $podsumma_so_skidkoy .= ($x * 0.9) . "<br>";
+            } if ($value['diskont'] == "20%") {
+
+                $podsumma_so_skidkoy .= $x * 0.8 . "<br>";
+            }
+            if ($value['diskont'] == "30%") {
+                $podsumma_so_skidkoy .= ($x * 0.7) . "<br>";
+            } if ($value['diskont'] == "0%") {
+                $podsumma_so_skidkoy .= $x . " (Нет скидки) <br>";
+            } 
+        } else {
+            $x = $value['осталось на складе'] * $value['цена'];
+            $podsumma .= $x . "<br>";
+            if ($value['diskont'] == "10%") {
+                $podsumma_so_skidkoy .= ($x * 0.9) . "<br>";
+            } if ($value['diskont'] == "20%") {
+//                $x = $x * 0.8;
+                $podsumma_so_skidkoy .= ($x * 0.8) . "<br>";
+            }
+            if ($value['diskont'] == "30%") {
+                $podsumma_so_skidkoy .= ($x * 0.7). "<br>";
+            } if ($value['diskont'] == "0%") {
+                $podsumma_so_skidkoy .= $x . " (Нет скидки) <br>";
+            }
+        }$total_price += $x;
     }
 }
 
-/*
-  function vivod_skidki() {
-  global $bd;
-  foreach ($bd as $key => $value) {
-  switch ($value['diskont']) {
-  case 0.1:
-  echo '10%<br>';
-  case 0.2:
-  echo '20%<br>';
-  case 1:
-  echo '0%<br>';
-  break;
-  default:
-  break;
-  }
-  }
-  } */
 ?>
 
 
