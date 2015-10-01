@@ -26,8 +26,7 @@ diskont = diskont' . mt_rand(0, 2) . ';
 $bd = parse_ini_string($ini_string, TRUE);
 
 $nazvaniya_tovarov = array_keys($bd); //массив с названиями товаров
-$atrib = array_keys($bd['игрушка мягкая мишка белый']); //массив с атрибутами товаров
-//var_dump($bd);
+var_dump($bd);
 foreach ($bd as $key => &$value) {
     if ($value['diskont'] == 'diskont1') {
         $value['diskont'] = "10%";
@@ -35,8 +34,8 @@ foreach ($bd as $key => &$value) {
         $value['diskont'] = "20%";
     } else {
         $value['diskont'] = "0%";
-    }var_dump($value);
-}var_dump($bd);
+    }
+}
 
 if ($bd['игрушка детская велосипед']['количество заказано'] > 3) {
     $bd['игрушка детская велосипед']['diskont'] = "30%";
@@ -57,6 +56,7 @@ function display_atribs($nazvaniya_tovarov) {
     global $skidka;
     global $prevish;
     global $alert;
+    global $total_kol;
 
     $name = " ";
     for ($i = 0; $i < count($nazvaniya_tovarov); $i++) {
@@ -75,7 +75,6 @@ function display_atribs($nazvaniya_tovarov) {
     for ($i = 0; $i < count($nazvaniya_tovarov); $i++) {
 
         $discont .= $bd[$nazvaniya_tovarov[$i]]['diskont'] . "<br>";
-        echo $bd[$nazvaniya_tovarov[$i]]['diskont'] . "<br>";
     }
 
     $kol_zakaz_naim = 0;
@@ -84,25 +83,9 @@ function display_atribs($nazvaniya_tovarov) {
             ++$kol_zakaz_naim;
         }
     }
+
     $total_price = 0;
     static $x;
-    /* foreach ($bd as $key => $value) {
-      if ($value['diskont'] == "10%") {
-      $x = $value['цена'] * 0.9;
-      $podsumma_so_skidkoy .= $x . "<br>";
-      } if ($value['diskont'] == "20%") {
-      $x = $value['цена'] * 0.8;
-      $podsumma_so_skidkoy .= $x . "<br>";
-      }
-      if ($value['diskont'] == "30%") {
-      $x = $value['цена'] * 0.7;
-      $podsumma_so_skidkoy .= $x . "<br>";
-      } if ($value['diskont'] == "0%") {
-      //            $x = $value['цена'] * 1;
-      $podsumma_so_skidkoy .= ($value['цена'] * $value['количество заказано']) . " (Нет скидки) <br>";
-      }
-      } */
-
     foreach ($bd as $key => $value) {
 
         if ($value['осталось на складе'] >= $value['количество заказано']) {
@@ -142,15 +125,21 @@ function display_atribs($nazvaniya_tovarov) {
             }$total_price += $x1;
         }
     }
-    
-        if ($bd['игрушка детская велосипед']['количество заказано'] >= 3
-                and $bd['игрушка детская велосипед']['осталось на складе'] != 0) {
-            $alert.= "Вам предоставлена скидка 30%<br>";
-        } 
-        foreach ($bd as $key => $value) {
-        if ($value['осталось на складе'] = 0) {
+    $alert = " ";
+    foreach ($bd as $key => $value) {
+        if ($value['осталось на складе'] == 0) {
             $alert.= "Отсутствует на складе<br>";
+        } if ($value['осталось на складе'] > 0) {
+            $alert.= "<br>";
         }
+        if ($key == 'игрушка детская велосипед' and $value['количество заказано'] >= 3
+                and $value['осталось на складе'] > 0) {
+            $alert.= "Вам предоставлена скидка 30%<br>";
+        }
+        
+    }
+    foreach ($bd as $key => $value) {
+        $total_kol += $value['количество заказано'];
     }
 }
 ?>
@@ -203,14 +192,15 @@ function display_atribs($nazvaniya_tovarov) {
                 </td>
                 <td align="center">
                     <? 
-                    echo $alert
+                    echo $alert;
                     ?>
                 </td>
         </table>
         <?
         echo "<h1>Итого: </h1>";
 
-        echo 'Общая сумма заказнанных товаров -  ' . $total_price . " <br> Всего наименований - " . $kol_zakaz_naim;
+        echo 'Общая сумма заказнанных товаров :  ' . $total_price . " <br> Всего наименований : " . $kol_zakaz_naim;
+        echo '<br> Общее количество заказанных товаров: '.$total_kol;
         ?>
     </body>
 </html>
