@@ -1,4 +1,13 @@
 <?php
+/* Задание выполнено коряво, но все операции производит корректно.
+ * Позже оптимизирую код.
+ * Алгоритм работы такой - в блоке <table> в разделе <html>
+ * вызывается display_atribs(), которой передается в качестве
+ * параметра - массив с атрибутами и названием товара.
+ * Функция производит вычисления и присваивает каждой глобальной переменной
+ * значенияодной из столбцов таблицы в текстовом виде. Эти значения потом
+ * и выводятся в секции <table>, с помощью конструкции echo $название переменной.
+  */
 error_reporting(E_ERROR | E_WARNING | E_PARSE | E_NOTICE);
 ini_set('display_errors', 1);
 
@@ -27,7 +36,7 @@ $bd = parse_ini_string($ini_string, TRUE);
 
 $nazvaniya_tovarov = array_keys($bd); //массив с названиями товаров
 var_dump($bd);
-foreach ($bd as $key => &$value) {
+foreach ($bd as $key => &$value) { //заменяет значения в массиве с diskont на скидка%
     if ($value['diskont'] == 'diskont1') {
         $value['diskont'] = "10%";
     } elseif ($value['diskont'] == 'diskont2') {
@@ -37,26 +46,23 @@ foreach ($bd as $key => &$value) {
     }
 }
 
-if ($bd['игрушка детская велосипед']['количество заказано'] > 3) {
+if ($bd['игрушка детская велосипед']['количество заказано'] > 3) {//если велосипедов заказано > 3шт. в массиве присваивается 30%
     $bd['игрушка детская велосипед']['diskont'] = "30%";
 }
 
 function display_atribs($nazvaniya_tovarov) {
     global $bd;
-    global $name;
-    global $price;
-    global $kol_zak;
-    global $ost;
-    global $discont;
-    global $kol_zakaz_naim;
-    global $podsumma;
-    global $total_price;
-    global $kol_zakaz_naim;
-    global $podsumma_so_skidkoy;
-    global $skidka;
-    global $prevish;
-    global $alert;
-    global $total_kol;
+    global $name;//названия товаров в столбец
+    global $price;//цены в столбец
+    global $kol_zak;//заказано в столбец
+    global $ost;//осталось на складе в столбец
+    global $discont;//скидка в столбец
+    global $kol_zakaz_naim;//сколько наименований заказано
+    global $podsumma;//стоимость товаров в столбец
+    global $total_price;//конечная стоимость
+    global $podsumma_so_skidkoy;//цена со скидкой в столбец
+    global $alert;//уведомления в столбец
+    global $total_kol;//Общее количество заказанных товаров с учетом наличия на складе в столбец
 
     $name = " ";
     for ($i = 0; $i < count($nazvaniya_tovarov); $i++) {
@@ -129,17 +135,20 @@ function display_atribs($nazvaniya_tovarov) {
     foreach ($bd as $key => $value) {
         if ($value['осталось на складе'] == 0) {
             $alert.= "Отсутствует на складе<br>";
-        } if ($value['осталось на складе'] > 0) {
+        } if ($value['осталось на складе'] > 0 and $key !== 'игрушка детская велосипед') {
             $alert.= "<br>";
         }
         if ($key == 'игрушка детская велосипед' and $value['количество заказано'] >= 3
                 and $value['осталось на складе'] > 0) {
             $alert.= "Вам предоставлена скидка 30%<br>";
         }
-        
     }
     foreach ($bd as $key => $value) {
-        $total_kol += $value['количество заказано'];
+        if ($value['количество заказано'] > $value['осталось на складе']) {
+            $total_kol += $value['осталось на складе'];
+        } else {
+            $total_kol += $value['количество заказано'];
+        }
     }
 }
 ?>
@@ -200,7 +209,7 @@ function display_atribs($nazvaniya_tovarov) {
         echo "<h1>Итого: </h1>";
 
         echo 'Общая сумма заказнанных товаров :  ' . $total_price . " <br> Всего наименований : " . $kol_zakaz_naim;
-        echo '<br> Общее количество заказанных товаров: '.$total_kol;
+        echo '<br> Общее количество заказанных товаров с учетом наличия на складе: '.$total_kol;
         ?>
     </body>
 </html>
