@@ -1,6 +1,3 @@
-<?php
-header("HTTP/1.0 404 Not Found");
-?>
 <!DOCTYPE html>
 <!--
 To change this license header, choose License Headers in Project Properties.
@@ -26,20 +23,29 @@ and open the template in the editor.
 Звезды телешоу «Голос» Наргиз Закирова и Гела Гуралиа споют в «Маяковском»';
         $news = explode("\n", $news);
 
-//        print_r($news);
-        function whereprint($answer) {
-            global $news, $E_ALL;
+        function whereprint($answer) {//проверяет в зависимости от id выводить ли все новости или одну
+            global $news;
             if ($answer == 'all' || $answer > count($news)) {
                 foreach ($news as $id => $value) {
                     echo $value;
+//                    header("HTTP/1.0 404 Not Found");
                 }
             } else {
                 echo $news[$answer - 1];
             }
         }
 
+        function existparam() {//проверна на предмет наличия параметра id и не пустой ли он
+            if (array_key_exists('id', $_GET) == false || $_GET['id']==NULL) {
+                header('HTTP/1.0 404 NOT FOUND');
+                echo '<h3>Новость, которую вы ищите отсутсвтует на сайте</h3><br/>';
+                echo '<a href="/lesson5_1.php?id=all">Все новости';
+                exit;
+            }
+        }
+
+        existparam();
         whereprint($_GET['id']);
-        
         ?>
     </body>
 </html>
