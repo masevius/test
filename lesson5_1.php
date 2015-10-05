@@ -1,3 +1,6 @@
+<?php
+header("HTTP/1.0 404 Not Found");
+?>
 <!DOCTYPE html>
 <!--
 To change this license header, choose License Headers in Project Properties.
@@ -36,6 +39,7 @@ and open the template in the editor.
         }
 
         whereprint($_GET['id']);
+        
         ?>
     </body>
 </html>
