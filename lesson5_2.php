@@ -49,7 +49,7 @@ and open the template in the editor.
       
         ?>
         <form method="POST">
-            <p><b>Введите номер новости или для показа всех новостей введите слово "ALL"</b></p>
+            <p><b>Введите номер новости или для показа всех новостей введите слово - "ALL"</b></p>
             <p><input type = "text" name = "id" value = ""><Br>
                
             <p><input type = "submit"></p>
