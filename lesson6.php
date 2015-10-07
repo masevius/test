@@ -43,15 +43,12 @@ $_SESSION['ads'][rand(1, time())] = $_POST;
     </div>
 </form>
 <?php
-
-
-//$_SESSION[array('id' => rand(0, time()))]= $_POST;
-//var_dump($_POST);
-////var_dump($_SESSION);
-
-
-//array_unshift($_POST, array('id' => rand(1, time())));
-
+foreach ($_SESSION as $key => $ad_num) { //$key - ads, $ad_num - номер объявления
+    foreach ($ad_num as $atrib => $value) {//
+        echo $value['title'].'|'.$value['price'].'|'.$value['seller_name'].'<br>';
+    }
+        
+    }
 
 
 var_dump($_SESSION);
