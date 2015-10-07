@@ -1,4 +1,8 @@
 
+<?php
+session_start();
+$_SESSION['ads'][rand(1, time())] = $_POST;
+?>
 <form  method="post">
 
 
@@ -39,12 +43,21 @@
     </div>
 </form>
 <?php
-session_start();
 
-$_SESSION['history'][date('d.m.Y H:i:s')] = $_POST;
+
+//$_SESSION[array('id' => rand(0, time()))]= $_POST;
+//var_dump($_POST);
+////var_dump($_SESSION);
+
+
+//array_unshift($_POST, array('id' => rand(1, time())));
+
+
+
 var_dump($_SESSION);
-print_r($_SESSION);
+//var_dump($_POST);
 
+//session_unset();
 ?>
 
 
