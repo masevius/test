@@ -40,8 +40,8 @@
 </form>
 <?php
 session_start();
-
-$_SESSION['history'][date('d.m.Y H:i:s')] = $_POST;
+$sesnum=0;
+$_SESSION['history'] = $_POST;
 var_dump($_SESSION);
 print_r($_SESSION);
 
