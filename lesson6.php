@@ -1,4 +1,9 @@
 
+<?php
+session_start();
+$_SESSION['ads'][rand(1, time())] = $_POST;
+//define('site', 'http://xaver.loc')
+?>
 <form  method="post">
 
 
@@ -39,12 +44,23 @@
     </div>
 </form>
 <?php
-session_start();
-$sesnum=0;
-$_SESSION['history'] = $_POST;
-var_dump($_SESSION);
-print_r($_SESSION);
+if (isset($_GET['edit']) && $_GET['edit'] == true) {
+    $_SESSION['ads'][$_GET['edit']] = "";
+}
 
+function dispaly_all_ads() {
+    foreach ($_SESSION as $key => $ad_num) {//$key - ads, $ad_num - номер объявления
+        foreach ($ad_num as $atrib => $value) {//
+            echo $value['title'] . '|' . $value['price'] . '|' . $value['seller_name'] .
+            '| <a href="http://xaver.loc/lesson6.php?edit=' . $atrib . '">Удалить</a><br>';
+        }
+    }
+}
+dispaly_all_ads();
+var_dump($_SESSION);
+//var_dump($_POST);
+//session_unset();
+//var_dump($_SERVER);
 ?>
 
 
