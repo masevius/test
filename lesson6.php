@@ -1,13 +1,32 @@
 
 <?php
 session_start();
-$_SESSION['ads'][rand(1, time())] = $_POST;
+//$_SESSION['ads'][rand(1, time())] = $_POST;
 //define('site', 'http://xaver.loc')
+
+if ($_SERVER['REQUEST_METHOD']== 'POST' && isset($_POST)){
+    $_SESSION[uniqid()] = $_POST;
+} elseif (isset($_GET['edit'])) {
+    unset($_SESSION[$_GET['edit']]);
+}
+function showad (){
+    foreach ($_SESSION as $atrib => $value) {//
+         echo    $value['title'] . '|' . $value['price'] . '|' . $value['seller_name'] .
+            '| <a href="http://xaver.loc/lesson6.php?edit=' . $atrib . '">Удалить</a><br>';
+        }
+}
+
+
+//echo $ad;
+//var_dump($_SESSION);
+//var_dump($_GET);
+//var_dump($_SERVER);
+//session_unset();
 ?>
-<form  method="post">
+<form  method="POST">
 
 
-    <div class="form-row-indented"> <label class="form-label-radio"><input type="radio" checked="" value="1" name="private">Частное лицо</label> <label class="form-label-radio"><input type="radio" value="0" name="private">Компания</label> </div>
+   <input type="radio" checked="" value="1" name="private">Частное лицо</label> <label class="form-label-radio"><input type="radio" value="0" name="private">Компания</label> </div>
     <div class="form-row"> <label for="fld_seller_name" class="form-label"><b id="your-name">Ваше имя</b></label>
         <input type="text" maxlength="40" class="form-input-text" value="" name="seller_name" id="fld_seller_name">
     </div>
@@ -44,23 +63,5 @@ $_SESSION['ads'][rand(1, time())] = $_POST;
     </div>
 </form>
 <?php
-if (isset($_GET['edit']) && $_GET['edit'] == true) {
-    $_SESSION['ads'][$_GET['edit']] = "";
-}
-
-function dispaly_all_ads() {
-    foreach ($_SESSION as $key => $ad_num) {//$key - ads, $ad_num - номер объявления
-        foreach ($ad_num as $atrib => $value) {//
-            echo $value['title'] . '|' . $value['price'] . '|' . $value['seller_name'] .
-            '| <a href="http://xaver.loc/lesson6.php?edit=' . $atrib . '">Удалить</a><br>';
-        }
-    }
-}
-dispaly_all_ads();
-var_dump($_SESSION);
-//var_dump($_POST);
-//session_unset();
-//var_dump($_SERVER);
+showad();
 ?>
-
-
