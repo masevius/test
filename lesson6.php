@@ -1,27 +1,53 @@
 
 <?php
 session_start();
-$_SESSION['ads'][rand(1, time())] = $_POST;
+//$_SESSION['ads'][rand(1, time())] = $_POST;
 //define('site', 'http://xaver.loc')
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST)) {
+    $_SESSION[uniqid()] = $_POST;
+} elseif (isset($_GET['edit'])) {
+    unset($_SESSION[$_GET['edit']]);
+}
+
+function showad() {
+    foreach ($_SESSION as $atrib => $value) {//
+        echo '| <a href="http://xaver.loc/lesson6.php?id=' . $atrib . '">' . $value['title'] . '</a>' . '|' . $value['price'] . '|' . $value['seller_name'] .
+        '| <a href="http://xaver.loc/lesson6.php?edit=' . $atrib . '">Удалить</a><br>';
+    }
+}
+
+//echo $ad;
+//var_dump($_SESSION);
+//var_dump($_GET);
+//var_dump($_SERVER);
+//session_unset();
+function returnID($param) {
+    if ($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['id']) && isset($_SESSION[$_GET['id']][$param])) {
+        echo $_SESSION[$_GET['id']][$param];
+//        return $_SESSION[$_GET['id']][$param];
+    }
+//    else {
+//        return "";
+//    }
+}
 ?>
-<form  method="post">
-
-
+<form  method="POST">
     <div class="form-row-indented"> <label class="form-label-radio"><input type="radio" checked="" value="1" name="private">Частное лицо</label> <label class="form-label-radio"><input type="radio" value="0" name="private">Компания</label> </div>
     <div class="form-row"> <label for="fld_seller_name" class="form-label"><b id="your-name">Ваше имя</b></label>
-        <input type="text" maxlength="40" class="form-input-text" value="" name="seller_name" id="fld_seller_name">
+        <input type="text" maxlength="40" class="form-input-text" value="<?php returnID('seller_name') ?>" name="seller_name" id="fld_seller_name">
     </div>
-    <div style="display: none;" id="your-manager" class="form-row"> 
-        <label for="fld_manager" class="form-label"><b>Контактное лицо</b>
-        </label> <input type="text" class="form-input-text" maxlength="40" value="" name="manager" id="fld_manager">
+    <div style="display: none;" id="your-manager" class="form-row"> <label for="fld_manager" class="form-label"><b>Контактное лицо</b></label> <input type="text" class="form-input-text" maxlength="40" value="" name="manager" id="fld_manager">
         <em class="f_r_g">&nbsp;&nbsp;необязательно</em>
     </div>
     <div class="form-row"> <label for="fld_email" class="form-label">Электронная почта</label>
-        <input type="text" class="form-input-text" value="" name="email" id="fld_email">
+        <input type="text" class="form-input-text" value="<?php returnID('email') ?>" name="email" id="fld_email">
     </div>
-    <div class="form-row-indented"> <label class="form-label-checkbox" for="allow_mails"> <input type="checkbox" value="1" name="allow_mails" id="allow_mails" class="form-input-checkbox"><span class="form-text-checkbox">Я не хочу получать вопросы по объявлению по e-mail</span> </label> </div>
+    <div class="form-row-indented"> <label class="form-label-checkbox" for="allow_mails">
+            <input type="checkbox" value="<?php returnID('allow_mails')  ?>" name="allow_mails" id="allow_mails" class="form-input-checkbox">
+            <span class="form-text-checkbox">Я не хочу получать вопросы по объявлению по e-mail</span> </label> </div>
     <div class="form-row"> <label id="fld_phone_label" for="fld_phone" class="form-label">Номер телефона</label>
-        <input type="text" class="form-input-text" value="" name="phone" id="fld_phone">
+        <input type="text" class="form-input-text" value="<?php returnID('phone') ?>" name="phone" id="fld_phone">
     </div>
     <div id="f_location_id" class="form-row form-row-required">
         <label for="region" class="form-label">Город</label> 
@@ -57,11 +83,11 @@ $_SESSION['ads'][rand(1, time())] = $_POST;
                 <option value="2026">Сибирская</option>
                 <option value="2023">Студенческая</option>
             </select> </div> <div id="f_district_id"> 
-                <select title="Выберите район города" name="district_id" id="fld_district_id" class="form-input-select" style="display: none;">
-                    <option value="">-- Выберите район города --</option>
-                </select> </div> <div id="f_road_id">
-                    <select title="Выберите направление" name="road_id" id="fld_road_id" class="form-input-select" style="display: none;"> 
-                        <option value="">-- Выберите направление --</option><option value="56">Бердское шоссе</option><option value="57">Гусинобродское шоссе</option><option value="53">Дачное шоссе</option><option value="55">Краснояровское шоссе</option><option value="54">Мочищенское шоссе</option><option value="52">Ордынское  шоссе</option><option value="58">Советское шоссе</option></select> </div> </div>
+            <select title="Выберите район города" name="district_id" id="fld_district_id" class="form-input-select" style="display: none;">
+                <option value="">-- Выберите район города --</option>
+            </select> </div> <div id="f_road_id">
+            <select title="Выберите направление" name="road_id" id="fld_road_id" class="form-input-select" style="display: none;"> 
+                <option value="">-- Выберите направление --</option><option value="56">Бердское шоссе</option><option value="57">Гусинобродское шоссе</option><option value="53">Дачное шоссе</option><option value="55">Краснояровское шоссе</option><option value="54">Мочищенское шоссе</option><option value="52">Ордынское  шоссе</option><option value="58">Советское шоссе</option></select> </div> </div>
     <div class="form-row"> <label for="fld_category_id" class="form-label">Категория</label> <select title="Выберите категорию объявления" name="category_id" id="fld_category_id" class="form-input-select"> <option value="">-- Выберите категорию --</option><optgroup label="Транспорт"><option value="9">Автомобили с пробегом</option><option value="109">Новые автомобили</option><option value="14">Мотоциклы и мототехника</option><option value="81">Грузовики и спецтехника</option><option value="11">Водный транспорт</option><option value="10">Запчасти и аксессуары</option></optgroup><optgroup label="Недвижимость"><option value="24">Квартиры</option><option value="23">Комнаты</option><option value="25">Дома, дачи, коттеджи</option><option value="26">Земельные участки</option><option value="85">Гаражи и машиноместа</option><option value="42">Коммерческая недвижимость</option><option value="86">Недвижимость за рубежом</option></optgroup><optgroup label="Работа"><option value="111">Вакансии (поиск сотрудников)</option><option value="112">Резюме (поиск работы)</option></optgroup><optgroup label="Услуги"><option value="114">Предложения услуг</option><option value="115">Запросы на услуги</option></optgroup><optgroup label="Личные вещи"><option value="27">Одежда, обувь, аксессуары</option><option value="29">Детская одежда и обувь</option><option value="30">Товары для детей и игрушки</option><option value="28">Часы и украшения</option><option value="88">Красота и здоровье</option></optgroup><optgroup label="Для дома и дачи"><option value="21">Бытовая техника</option><option value="20">Мебель и интерьер</option><option value="87">Посуда и товары для кухни</option><option value="82">Продукты питания</option><option value="19">Ремонт и строительство</option><option value="106">Растения</option></optgroup><optgroup label="Бытовая электроника"><option value="32">Аудио и видео</option><option value="97">Игры, приставки и программы</option><option value="31">Настольные компьютеры</option><option value="98">Ноутбуки</option><option value="99">Оргтехника и расходники</option><option value="96">Планшеты и электронные книги</option><option value="84">Телефоны</option><option value="101">Товары для компьютера</option><option value="105">Фототехника</option></optgroup><optgroup label="Хобби и отдых"><option value="33">Билеты и путешествия</option><option value="34">Велосипеды</option><option value="83">Книги и журналы</option><option value="36">Коллекционирование</option><option value="38">Музыкальные инструменты</option><option value="102">Охота и рыбалка</option><option value="39">Спорт и отдых</option><option value="103">Знакомства</option></optgroup><optgroup label="Животные"><option value="89">Собаки</option><option value="90">Кошки</option><option value="91">Птицы</option><option value="92">Аквариум</option><option value="93">Другие животные</option><option value="94">Товары для животных</option></optgroup><optgroup label="Для бизнеса"><option value="116">Готовый бизнес</option><option value="40">Оборудование для бизнеса</option></optgroup></select> </div>
 
     <div style="display: none;" id="params" class="form-row form-row-required"> <label class="form-label ">
@@ -83,31 +109,24 @@ $_SESSION['ads'][rand(1, time())] = $_POST;
     </div>
 </form>
 <?php
-
-
-//function dispaly_all_ads() {
-    foreach ($_SESSION as $key => $ad_num) {//$key - ads, $ad_num - номер объявления
-        foreach ($ad_num as $atrib => $value) {//
-            echo $value['title'] . '|' . $value['price'] . '|' . $value['seller_name'] .
-            '| <input type="button" value="Удалить" onclick="del($atrib)"></p>';
+////function dispaly_all_ads() {
+//    foreach ($_SESSION as $key => $ad_num) {//$key - ads, $ad_num - номер объявления
+//        foreach ($ad_num as $atrib => $value) {//
 //            echo $value['title'] . '|' . $value['price'] . '|' . $value['seller_name'] .
-//            '| <a href="http://xaver.loc/lesson6.php?edit=' . $atrib . '">Удалить</a><br>';
-        }
-    }
-    
+//            '| <input type="button" value="Удалить" onclick="del($atrib)"></p>';
+////            echo $value['title'] . '|' . $value['price'] . '|' . $value['seller_name'] .
+////            '| <a href="http://xaver.loc/lesson6.php?edit=' . $atrib . '">Удалить</a><br>';
+//        }
+//    }
 //    if (isset($_GET['edit'])) {
 //    $_SESSION['ads'][$_GET['edit']] = array();
 //}
 //}
 //dispaly_all_ads();
+showad();
 var_dump($_SESSION);
 //var_dump($_POST);
 //session_unset();
 //var_dump($_SERVER);
 ?>
-<!--<script>
-   function del($atrib) {
-//      unset($_SESSION['ads'][$atrib]);
-echo $atrin;
-  </script>-->
 
