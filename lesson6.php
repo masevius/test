@@ -1,8 +1,7 @@
 
 <?php
 session_start();
-//$_SESSION['ads'][rand(1, time())] = $_POST;
-//define('site', 'http://xaver.loc')
+
 $city = array('641780' => 'Москва', '641490' => 'Подольск', '641510' => 'Санкт-Петербург');
 $metro = array('2028' => 'Берёзовая роща', '2018' => 'Гагаринская', '2029' => 'Золотая Нива');
 $realty = array('25' => 'Дома, дачи, коттеджи', '26' => 'Земельные участки', '42' => 'Коммерческая недвижимость');
@@ -13,6 +12,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST)) {
     $_SESSION[uniqid()] = $_POST;
 } elseif (isset($_GET['edit'])) {
     unset($_SESSION[$_GET['edit']]);
+}
+
+function checked($param, $num) {
+    if ($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['id']) && isset($_SESSION[$_GET['id']][$param]) && $_SESSION[$_GET['id']][$param] == $num) {
+        echo 'checked';
+    }
 }
 
 function showad() {
@@ -56,33 +61,33 @@ function selected($param) {
     }
 }
 
-//echo $ad;
-//var_dump($_SESSION);
-//var_dump($_GET);
-//var_dump($_SERVER);
-//session_unset();
 function returnID($param) {
+    global $select;
+
     if ($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['id']) && isset($_SESSION[$_GET['id']][$param])) {
         echo $_SESSION[$_GET['id']][$param];
+
 //        return $_SESSION[$_GET['id']][$param];
     }
+
+
 //    else {
-//        return "";
+//        return "";<div class="form-row"> 
 //    }
 }
 ?>
-<form  method="POST">
-    <div class="form-row-indented"> <label class="form-label-radio"><input type="radio" checked="" value="1" name="private">Частное лицо</label> <label class="form-label-radio"><input type="radio" value="0" name="private">Компания</label> </div>
-    <div class="form-row"> <label for="fld_seller_name" class="form-label"><b id="your-name">Ваше имя</b></label>
-        <input type="text" maxlength="40" class="form-input-text" value="<?php returnID('seller_name') ?>" name="seller_name" id="fld_seller_name">
-    </div>
+<form  method="POST" id="data">
+    <label><input checked <?php checked('private', '1'); ?> type="radio" name="private" value="1" >Частное лицо </label>
+    <label><input  <?php checked('private', '0'); ?> type="radio" name="private" value="0">Компания </label>
 
-    <div class="form-row"> <label for="fld_email" class="form-label">Электронная почта</label>
+    <br><label for="fld_seller_name" class="form-label"><b id="your-name">Ваше имя</b></label>
+    <input type="text"  value="<?php returnID('seller_name') ?>" name="seller_name" >
+
+
+    <br><div class="form-row"> <label for="fld_email" class="form-label">Электронная почта</label>
         <input type="text" class="form-input-text" value="<?php returnID('email') ?>" name="email" id="fld_email">
     </div>
-    <div class="form-row-indented"> <label class="form-label-checkbox" for="allow_mails">
-            <input type="checkbox" value="<?php returnID('allow_mails') ?>" name="allow_mails" id="allow_mails" class="form-input-checkbox">
-            <span class="form-text-checkbox">Я не хочу получать вопросы по объявлению по e-mail</span> </label> </div>
+    <label><input <?php checked('otkaz', '1'); ?> type="checkbox" name="otkaz" value="1">Я не хочу получать вопросы по объявлению на e-mail</label> 
     <div class="form-row"> <label id="fld_phone_label" for="fld_phone" class="form-label">Номер телефона</label>
         <input type="text" class="form-input-text" value="<?php returnID('phone') ?>" name="phone" id="fld_phone">
     </div>
@@ -118,12 +123,12 @@ function returnID($param) {
 </div>           
 <div id="f_title" class="form-row f_title"> <label for="fld_title" class="form-label">Название объявления</label>
     <input type="text" maxlength="50" class="form-input-text-long" value="<?PHP returnID('title') ?>" name="title" id="fld_title"> </div>
-    
+
 <div class="form-row"> <label for="fld_description" class="form-label"  id="js-description-label">Описание объявления</label>
     <textarea maxlength="3000"  name="description" id="fld_description" class="form-input-textarea"><?PHP returnID('description') ?></textarea> </div>
 <div id="price_rw" class="form-row rl"> <label id="price_lbl" for="fld_price" class="form-label">Цена</label> 
     <input type="text" maxlength="9" class="form-input-text-short" value="<?PHP returnID('price') ?>" name="price" id="fld_price">&nbsp;<span id="fld_price_title">руб.</span>
-    
+
 </div>
 
 
@@ -134,9 +139,8 @@ function returnID($param) {
 </form>
 <?php
 showad();
-
-//var_dump($_POST);
-//session_unset();
-var_dump($_SESSION);
+if (empty($_SESSION)) {
+    echo "<br><h2>Объявления отсутствуют</h2>";
+}
 ?>
 
