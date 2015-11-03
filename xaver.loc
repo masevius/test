@@ -1,0 +1,45 @@
+# ************************************
+# Vhost template in module puppetlabs-apache
+# Managed by Puppet
+# ************************************
+
+<VirtualHost *:80>
+  ServerName xaver.loc
+
+  ## Vhost docroot
+  DocumentRoot "/var/www/public_html"
+
+
+
+  ## Directories, there should at least be a declaration for /var/www/public_html
+
+  <Directory "/var/www/public_html">
+    Options Indexes FollowSymLinks MultiViews
+    AllowOverride All
+   Order allow,deny
+     Allow from all
+  </Directory>
+
+  ## Load additional static includes
+
+
+  ## Logging
+  ErrorLog "/var/log/apache2/0wcCfyTe2fD6_error.log"
+  ServerSignature Off
+  CustomLog "/var/log/apache2/0wcCfyTe2fD6_access.log" combined
+
+
+
+
+  ## Server aliases
+  ServerAlias www.xaver.loc
+
+  ## SetEnv/SetEnvIf for environment variables
+  SetEnv APP_ENV dev
+
+  ## Custom fragment
+
+
+
+
+</VirtualHost>
