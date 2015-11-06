@@ -38,5 +38,5 @@ function tabl() {
     }echo $show;
 }
 
-tabl(16, 4);
+tabl(5, 8);
 ?>
