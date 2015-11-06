@@ -17,26 +17,40 @@ function tabl() {
     $show = '';
     $chapter = '';
 
-    $chapter = '<tr>';
+    $chapter .= '<tr>';
     for ($x = 0; $x < $col; $x++) {
-        $chapter .= '<td>' . $x . '<td>';
+        $chapter .= '<td bgcolor="green">' . ($x + 1) . '</td>';
     }
-    $chapter = '</tr>';
-    echo $chapter;
+    $chapter .= '</tr>';
+//    echo $chapter;
 
     if (func_num_args() <> 2 and check(func_get_args()) == FALSE) {
         echo 'Нужно ввести 2, причем целых числа.<br> Вы не выполнили одно, а может и сразу два условия!';
     } else {
+
         $show .= '<table border="1px">';
         $show .= $chapter;
-        for ($i = 0; $i < $row; $i++) {
-            $show .= '<tr>';
-            for ($y = 0; $y < $col; $y++) {
-                $show .= '<td>' . ($y + 1) . '</td>';
-            }$show .= '</tr>';
+        $fist_mn = 2;
+
+        for ($i = 0; $i < ($row-1); $i++) {
+            $second_mn = 2;
+            $show .= '<tr><td bgcolor="red">' . $fist_mn . '</td>';
+            for ($y = 0; $y < ($col-1); $y++) {
+                $show .= '<td>' . ($fist_mn * $second_mn++) . '</td>';
+            }$show .='</tr>';
+            $fist_mn++;
         }
+        $show .='</table>';
+
+
+//        for ($i = 0; $i < $row; $i++) {
+//            $show .= '<tr>';
+//            for ($y = 0; $y < $col; $y++) {
+//                $show .= '<td>' . ($y + 1) . '</td>';
+//            }$show .= '</tr>';
+//        }
     }echo $show;
 }
 
-tabl(5, 8);
+tabl(10, 25);
 ?>
