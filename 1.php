@@ -17,9 +17,10 @@ function tabl() {
     $show = '';
     $chapter = '';
 
-    $chapter .= '<tr>';
-    for ($x = 0; $x < $col; $x++) {
-        $chapter .= '<td bgcolor="green">' . ($x + 1) . '</td>';
+    $chapter .= '<tr align="center">';
+     $chapter .= '<td bgcolor="#FFEFD5"> 1</td>';
+    for ($x = 1; $x < $col; $x++) {
+        $chapter .= '<td bgcolor="#F0FFFF">' . ($x + 1) . '</td>';
     }
     $chapter .= '</tr>';
 //    echo $chapter;
@@ -32,11 +33,11 @@ function tabl() {
         $show .= $chapter;
         $fist_mn = 2;
 
-        for ($i = 0; $i < ($row-1); $i++) {
+        for ($i = 0; $i < ($row - 1); $i++) {
             $second_mn = 2;
-            $show .= '<tr><td bgcolor="red">' . $fist_mn . '</td>';
-            for ($y = 0; $y < ($col-1); $y++) {
-                $show .= '<td>' . ($fist_mn * $second_mn++) . '</td>';
+            $show .= '<tr align="center"><td bgcolor="#FFEFD5">' . $fist_mn . '</td>';
+            for ($y = 0; $y < ($col - 1); $y++) {
+                $show .= '<td >' . ($fist_mn * $second_mn++) . '</td>';
             }$show .='</tr>';
             $fist_mn++;
         }
