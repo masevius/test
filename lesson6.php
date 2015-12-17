@@ -27,7 +27,7 @@ function checked($param, $num) {
 function showad() {
     foreach ($_SESSION as $atrib => $value) {//
         echo '| <a href="http://xaver.loc/lesson6.php?id=' . $atrib . '">' . $value['title'] . '</a>' . '|' . $value['price'] . ' рублей |' . $value['seller_name'] .
-        '| <a href="http://xaver.loc/lesson6.php?edit=' . $atrib . '">Удалить</a><br>';
+        '| <a href="http:./lesson6.php?edit=' . $atrib . '">Удалить</a><br>';
     }
 }
 
@@ -70,14 +70,6 @@ function returnID($param) {
 
     if ($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['id']) && isset($_SESSION[$_GET['id']][$param])) {
         echo $_SESSION[$_GET['id']][$param];
-
-//        return $_SESSION[$_GET['id']][$param];
-    }
-
-
-//    else {
-//        return "";<div class="form-row"> 
-//    }
 }
 ?>
 <form  method="POST" id="data">
